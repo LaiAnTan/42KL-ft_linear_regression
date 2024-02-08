@@ -1,7 +1,8 @@
 
 class PredictPrice:
 
-    def __init__(self, path=None, intercept_name="theta0", slope_name="theta1") -> None:
+    def __init__(self, path=None, intercept_name="theta0",
+                 slope_name="theta1") -> None:
         self.path = path
 
         if path is None:

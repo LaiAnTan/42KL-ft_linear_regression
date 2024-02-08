@@ -17,7 +17,8 @@ def leastSquares(arr: np.ndarray):
 
 class RSquared:
 
-    def __init__(self, path=None, intercept_name="theta0", slope_name="theta1") -> None:
+    def __init__(self, path=None, intercept_name="theta0",
+                 slope_name="theta1") -> None:
         self.path = path
 
         if path is None:
@@ -48,6 +49,7 @@ class RSquared:
 
         predicted_y_mean_diffs = predicted_y_values - mean[1]
 
-        r_squared = np.sum(predicted_y_mean_diffs ** 2) / np.sum(y_mean_diffs ** 2)
+        r_squared = np.sum(predicted_y_mean_diffs ** 2) / \
+            np.sum(y_mean_diffs ** 2)
 
         return r_squared

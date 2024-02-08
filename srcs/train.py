@@ -25,7 +25,8 @@ def writeToFile(path, slope: float, intercept: float,
                          ])
 
 
-def train(data: np.ndarray, outfile, learning_rate=0.1, max_steps=100, debug=False):
+def train(data: np.ndarray, outfile, learning_rate=0.1, max_steps=100,
+          debug=False):
 
     scaler = StandardScaler(data)
 
@@ -35,11 +36,12 @@ def train(data: np.ndarray, outfile, learning_rate=0.1, max_steps=100, debug=Fal
     m, c = gdmse.gradientDescent(scaler.normalize())
 
     m_gd, c_gd = scaler.revertCoefficients(m, c)
-    # m_ls, c_ls = leastSquares(data)
 
     writeToFile(outfile, m_gd, c_gd, gdmse.cost_history,
                 gdmse.slope_history, gdmse.intercept_history)
 
 
 if __name__ == "__main__":
+
+
     train()
