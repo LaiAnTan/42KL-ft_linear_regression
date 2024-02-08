@@ -4,7 +4,7 @@ import pandas as pd
 from srcs.train import train
 from srcs.plot import GraphPlotter
 from srcs.predict import PredictPrice
-from srcs.utils import leastSquares
+from srcs.stats import leastSquares, RSquared
 
 
 def loadCSV(path):
@@ -68,6 +68,11 @@ def main():
             plt = GraphPlotter("./assets/var.txt")
             plt.plotGraphs(data, m_ls, c_ls)
 
+        elif sys.argv[1] == "rsquared":
+
+            rsq = RSquared("./assets/var.txt")
+            print("R^2 for linear regression via gradient descent: "
+                  f"{rsq.rSquared(data)}")
 
 
 if __name__ == "__main__":
