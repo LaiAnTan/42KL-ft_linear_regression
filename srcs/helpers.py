@@ -34,6 +34,11 @@ def parse():
                               "descent. A large value will make the algorithm "
                               "run for longer. Non integer values or negative "
                               "values will break the algorithm.")
+    train_parser.add_argument('-d', '--debug', action='store_const',
+                              const=True,
+                              help="specify debug mode for gradient "
+                              "descent. Enabling debug mode will print info "
+                              "to the console.")
 
     predict_parser = subparsers.add_parser('predict',
                                            help="predict the price of a car "

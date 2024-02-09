@@ -1,6 +1,5 @@
 
 import os
-import pandas as pd
 
 from srcs.train import train
 from srcs.plot import GraphPlotter
@@ -14,9 +13,7 @@ def main():
     parser = parse()
 
     # load csv
-    df = loadCSV("./assets/data.csv")
-
-    data = df.to_numpy()
+    data = loadCSV("./assets/data.csv").to_numpy()
 
     args = parser.parse_args()
 
@@ -27,7 +24,7 @@ def main():
         print(f"Training with learning rate {args.learning_rate} and max "
               f"steps {args.max_steps}")
         train(data, "./assets/var.txt", learning_rate=args.learning_rate,
-              max_steps=args.max_steps)
+              max_steps=args.max_steps, debug=args.debug)
 
     elif os.path.exists('./assets/var.txt'):
 

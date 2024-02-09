@@ -18,10 +18,9 @@ Commands that can only be used after `train` has been run at least once:
   - `--least_squares` : enables the least_squares graph. If the dataset is large, it may take a long time to load. 
 - `rsquared` : shows the coefficient of determination, $R^2$ as a measure of precision.
 
-## dev/notes/
+For help, specify `-h` after main.py for general help or after commands for specific command help.
 
-Dependent variable: price
-Independent variable: km
+## dev/notes/
 
 https://hackmd.io/G_d-vmH9Sk6nm5d0XXdzpw?both
 
