@@ -1,78 +1,53 @@
-import sys
+
+import os
 import pandas as pd
 
 from srcs.train import train
 from srcs.plot import GraphPlotter
 from srcs.predict import PredictPrice
 from srcs.stats import leastSquares, RSquared
-
-
-def loadCSV(path):
-
-    try:
-        assert path.split(".")[-1] == 'csv'
-        dataframe = pd.read_csv(path)
-    except Exception:
-        raise AssertionError("Bad file")
-
-    return dataframe
+from srcs.helpers import parse, loadCSV
 
 
 def main():
 
+    parser = parse()
+
+    # load csv
     df = loadCSV("./assets/data.csv")
 
     data = df.to_numpy()
 
-    if len(sys.argv) >= 2:
-        if sys.argv[1] == "predict":
-            prd = PredictPrice("./assets/var.txt")
-            try:
-                print("Predicted price is "
-                      f"{prd.estimatePrice(float(input('Enter milage: ')))}")
-            except ValueError:
-                return print("Error: milage must be a number")
+    args = parser.parse_args()
 
-        elif sys.argv[1] == "train":
+    if args.command is None:
+        parser.print_help()
 
-            lr = None
-            ms = None
+    elif args.command == 'train':
+        print(f"Training with learning rate {args.learning_rate} and max "
+              f"steps {args.max_steps}")
+        train(data, "./assets/var.txt", learning_rate=args.learning_rate,
+              max_steps=args.max_steps)
 
-            for arg in sys.argv[1:]:
-                if arg.startswith("--"):
-                    if arg[2:].startswith("learning_rate="):
-                        try:
-                            lr = float(arg.split("=")[1])
-                        except ValueError:
-                            return print("Error: "
-                                         "--learning_rate only accepts float")
-                    if arg[2:].startswith("max_steps="):
-                        try:
-                            ms = int(arg.split("=")[1])
-                        except ValueError:
-                            return print("Error: "
-                                         "--max_steps only accepts int")
+    elif os.path.exists('./assets/var.txt'):
 
-            train(data, "./assets/var.txt", learning_rate=lr, max_steps=ms)
+        match args.command:
 
-        elif sys.argv[1] == "plot":
+            case 'predict':
+                PredictPrice("./assets/var.txt").predict()
 
-            m_ls = None
-            c_ls = None
+            case 'plot':
+                m_ls, c_ls = leastSquares(data) if args.least_squares else \
+                    None, None
+                GraphPlotter("./assets/var.txt").plotGraphs(data, m_ls, c_ls)
 
-            for arg in sys.argv[1:]:
+            case 'rsquared':
+                print("R^2 for linear regression via gradient descent: "
+                      f"{RSquared('./assets/var.txt').rSquared(data)}")
 
-                if arg == "--least_squares":
-                    m_ls, c_ls = leastSquares(data)
-
-            plt = GraphPlotter("./assets/var.txt")
-            plt.plotGraphs(data, m_ls, c_ls)
-
-        elif sys.argv[1] == "rsquared":
-
-            rsq = RSquared("./assets/var.txt")
-            print("R^2 for linear regression via gradient descent: "
-                  f"{rsq.rSquared(data)}")
+    else:
+        print("Error: You must run the 'train' command before running any "
+              "other commands.")
 
 
 if __name__ == "__main__":

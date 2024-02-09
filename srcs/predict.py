@@ -23,6 +23,15 @@ class PredictPrice:
     def estimatePrice(self, milage: int) -> None:
         return self.intercept + (self.slope * milage)
 
+    def predict(self) -> None:
+
+        try:
+            milage = float(input('Enter milage (km): '))
+            assert milage >= 0
+            print(f"Predicted price is {self.estimatePrice(milage)}")
+        except Exception:
+            return print("Error: milage must be a positive number")
+
 
 if __name__ == "__main__":
     p = PredictPrice()
