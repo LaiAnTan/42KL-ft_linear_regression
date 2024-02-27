@@ -35,7 +35,7 @@ def main():
 
             case 'plot':
                 m_ls, c_ls = leastSquares(data) if args.least_squares else \
-                    None, None
+                    None
                 GraphPlotter("./assets/var.txt").plotGraphs(data, m_ls, c_ls)
 
             case 'rsquared':

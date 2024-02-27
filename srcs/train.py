@@ -1,4 +1,7 @@
+import pandas as pd
 import numpy as np
+
+from srcs.helpers import loadCSV
 from srcs.scalers import StandardScaler
 from srcs.gradientDescent import GradientDescentMSELinear
 
@@ -42,6 +45,6 @@ def train(data: np.ndarray, outfile, learning_rate=0.1, max_steps=100,
 
 
 if __name__ == "__main__":
+    data = loadCSV("./assets/data.csv").to_numpy()
 
-
-    train()
+    train(data, "./assets/var.txt", debug=True)

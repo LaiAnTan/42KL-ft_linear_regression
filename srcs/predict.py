@@ -34,5 +34,4 @@ class PredictPrice:
 
 
 if __name__ == "__main__":
-    p = PredictPrice()
-    print(p.estimatePrice(89000))
+    PredictPrice().predict()
