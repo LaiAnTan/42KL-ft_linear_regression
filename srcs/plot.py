@@ -1,6 +1,8 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
+from stats import leastSquares
 
 class GraphPlotter:
 
@@ -84,3 +86,11 @@ class GraphPlotter:
                       y=-0.25)
 
         plt.show()
+
+if __name__ == "__main__":
+    
+    data = pd.read_csv("../assets/data.csv").to_numpy()
+    
+    m_ls, c_ls = leastSquares(data)
+    
+    GraphPlotter("../assets/var.txt").plotGraphs(data, m_ls, c_ls)
