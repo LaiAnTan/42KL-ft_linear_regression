@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -11,10 +12,14 @@ class GraphPlotter:
                  cost_history_name="cost_history",
                  slope_history_name="slope_history",
                  intercept_history_name="intercept_history"):
-        self.path = path
 
         if path is None:
             path = "../assets/var.txt"
+            
+        self.path = path
+            
+        if not os.path.isfile(path):
+            return
 
         with open(path) as file:
 
@@ -37,6 +42,9 @@ class GraphPlotter:
                                               tokens[1].split(',')]
 
     def plotGraphs(self, data: np.ndarray, m_ls=None, c_ls=None):
+
+        if not os.path.isfile(self.path):
+            return print(f"{self.path.split('/')[-1]} file does not exist")
 
         fig = plt.figure()
 

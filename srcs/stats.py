@@ -1,5 +1,5 @@
+import os
 import numpy as np
-
 
 def leastSquares(arr: np.ndarray):
 
@@ -19,10 +19,14 @@ class RSquared:
 
     def __init__(self, path=None, intercept_name="theta0",
                  slope_name="theta1") -> None:
-        self.path = path
 
         if path is None:
             path = "../assets/var.txt"
+            
+        self.path = path
+            
+        if not os.path.isfile(path):
+            return
 
         with open(path) as file:
 

@@ -1,13 +1,18 @@
+import os
 
 class PredictPrice:
 
     def __init__(self, path=None, intercept_name="theta0",
                  slope_name="theta1") -> None:
-        self.path = path
 
         if path is None:
             path = "../assets/var.txt"
-
+            
+        self.path = path
+            
+        if not os.path.isfile(path):
+            return
+        
         with open(path) as file:
 
             for line in file:
@@ -24,6 +29,9 @@ class PredictPrice:
         return self.intercept + (self.slope * milage)
 
     def predict(self) -> None:
+        
+        if not os.path.isfile(self.path):
+            return print(f"{self.path.split('/')[-1]} file does not exist")
 
         try:
             milage = float(input('Enter milage (km): '))
