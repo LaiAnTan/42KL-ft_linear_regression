@@ -13,6 +13,9 @@ class PredictPrice:
         if not os.path.isfile(path):
             return
         
+        self.intercept = 0
+        self.slope = 0
+        
         with open(path) as file:
 
             for line in file:
@@ -37,8 +40,8 @@ class PredictPrice:
             milage = float(input('Enter milage (km): '))
             assert milage >= 0
             print(f"Predicted price is {self.estimatePrice(milage)}")
-        except Exception:
-            return print("Error: milage must be a positive number")
+        except Exception as e:
+            print(f"Exception: {e}")
 
 
 if __name__ == "__main__":
