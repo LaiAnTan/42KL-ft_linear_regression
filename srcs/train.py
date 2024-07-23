@@ -1,10 +1,9 @@
 import pandas as pd
 import numpy as np
 
-from srcs.helpers import loadCSV
-from srcs.scalers import StandardScaler
-from srcs.gradientDescent import GradientDescentMSELinear
-
+from scalers import StandardScaler
+from gradientDescent import GradientDescentMSELinear
+from stats import RSquared
 
 def writeToFile(path, slope: float, intercept: float,
                 cost_history: list[float], slope_history: list[float],
@@ -45,6 +44,10 @@ def train(data: np.ndarray, outfile, learning_rate=0.1, max_steps=100,
 
 
 if __name__ == "__main__":
-    data = loadCSV("./assets/data.csv").to_numpy()
+    
+    data = pd.read_csv("../assets/data.csv").to_numpy()
+    
+    train(data, "../assets/var.txt", debug=True)
 
-    train(data, "./assets/var.txt", debug=True)
+    print("R^2 for linear regression via gradient descent: "
+          f"{RSquared('../assets/var.txt').rSquared(data)}")

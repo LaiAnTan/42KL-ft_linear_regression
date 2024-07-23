@@ -1,13 +1,21 @@
+import os
 
 class PredictPrice:
 
     def __init__(self, path=None, intercept_name="theta0",
                  slope_name="theta1") -> None:
-        self.path = path
 
         if path is None:
             path = "../assets/var.txt"
-
+            
+        self.path = path
+            
+        if not os.path.isfile(path):
+            return
+        
+        self.intercept = 0
+        self.slope = 0
+        
         with open(path) as file:
 
             for line in file:
@@ -24,13 +32,16 @@ class PredictPrice:
         return self.intercept + (self.slope * milage)
 
     def predict(self) -> None:
+        
+        if not os.path.isfile(self.path):
+            return print(f"{self.path.split('/')[-1]} file does not exist")
 
         try:
             milage = float(input('Enter milage (km): '))
             assert milage >= 0
             print(f"Predicted price is {self.estimatePrice(milage)}")
-        except Exception:
-            return print("Error: milage must be a positive number")
+        except Exception as e:
+            print(f"Exception: {e}")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,9 @@
+import os
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
+from stats import leastSquares
 
 class GraphPlotter:
 
@@ -9,10 +12,14 @@ class GraphPlotter:
                  cost_history_name="cost_history",
                  slope_history_name="slope_history",
                  intercept_history_name="intercept_history"):
-        self.path = path
 
         if path is None:
             path = "../assets/var.txt"
+            
+        self.path = path
+            
+        if not os.path.isfile(path):
+            return
 
         with open(path) as file:
 
@@ -35,6 +42,9 @@ class GraphPlotter:
                                               tokens[1].split(',')]
 
     def plotGraphs(self, data: np.ndarray, m_ls=None, c_ls=None):
+
+        if not os.path.isfile(self.path):
+            return print(f"{self.path.split('/')[-1]} file does not exist")
 
         fig = plt.figure()
 
@@ -84,3 +94,11 @@ class GraphPlotter:
                       y=-0.25)
 
         plt.show()
+
+if __name__ == "__main__":
+    
+    data = pd.read_csv("../assets/data.csv").to_numpy()
+    
+    m_ls, c_ls = leastSquares(data)
+    
+    GraphPlotter("../assets/var.txt").plotGraphs(data, m_ls, c_ls)
